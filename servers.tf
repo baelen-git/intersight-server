@@ -7,7 +7,7 @@ data "intersight_compute_rack_unit" "rackmount1" {
 }
 
 resource "intersight_boot_precision_policy" "boot_precision1" {
-  name                     = "Morten-Boot-order"
+  name                     = "${var.customer_name}-Boot-order"
   description              = "test policy"
   configured_boot_mode     = "Legacy"
   enforce_uefi_secure_boot = false
@@ -53,7 +53,7 @@ resource "intersight_boot_precision_policy" "boot_precision1" {
 }
 
 resource "intersight_bios_policy" "bios1" {
-  name    = "Morten-BIOS-Policy"
+  name    = "${var.customer_name}-BIOS-Policy"
   
   profiles {
     moid        = intersight_server_profile.server1.id
@@ -73,7 +73,7 @@ resource "intersight_bios_policy" "bios1" {
 
 
 resource "intersight_ntp_policy" "ntp1" {
-  name    = "Morten-NTP-Policy"
+  name    = "${var.customer_name}-NTP-Policy"
   enabled = true
   ntp_servers = [
     "ntp.esl.cisco.com",
@@ -98,7 +98,7 @@ resource "intersight_ntp_policy" "ntp1" {
 }
 
 resource "intersight_server_profile" "server1" {
-  name   = "Morten-Server-TF"
+  name   = "${var.customer_name}-demo"
   action = "No-op"
 
   target_platform = "Standalone"
