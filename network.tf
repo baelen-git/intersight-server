@@ -42,9 +42,9 @@ resource "intersight_vnic_eth_if" "eth1" {
 
 resource "intersight_vnic_eth_if" "eth2" {
   name = "eth1"
-  order = 0
+  order = 1
   placement {
-    id = "2"
+    id = "1"
     pci_link = 0
     uplink = 0
   }

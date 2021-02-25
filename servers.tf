@@ -2,6 +2,10 @@ data "intersight_organization_organization" "org" {
     name = var.organization
 }
 
+data "intersight_compute_rack_unit" "rackmount1" {
+    serial = "FCH2128V257"
+}
+
 resource "intersight_boot_precision_policy" "boot_precision1" {
   name                     = "Morten-Boot-order"
   description              = "test policy"
@@ -93,19 +97,27 @@ resource "intersight_ntp_policy" "ntp1" {
   }
 }
 
-
-
 resource "intersight_server_profile" "server1" {
   name   = "Morten-Server-TF"
   action = "No-op"
 
   target_platform = "Standalone"
 
+/*
+  assigned_server = [ {
+    additional_properties = "value"
+    class_id = "mo.MoRef"
+    moid = data.intersight_compute_rack_unit.rackmount1.id
+    object_type = "compute.RackUnit"
+    selector 
+  } ]
+  */
+
   tags {
     key   = "Managed_By"
     value = "Terraform"
   }
-  
+
   organization {
     object_type = "organization.Organization"
     moid        = data.intersight_organization_organization.org.id
