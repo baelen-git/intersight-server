@@ -11,3 +11,8 @@ variable "organization" {
   description = "Organization Name"
   default = "default"
 }
+
+variable "customer_name" {
+  type = string
+  description = "Name of the customer"
+}

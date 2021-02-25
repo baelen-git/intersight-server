@@ -49,7 +49,7 @@ resource "intersight_vnic_eth_if" "eth2" {
     uplink = 0
   }
   cdn {
-    value = "VIC-1-eth00"
+    value = "VIC-2-eth00"
     nr_source = "user"
   }
   usnic_settings {
@@ -84,7 +84,7 @@ resource "intersight_vnic_eth_if" "eth2" {
 }
 
 resource "intersight_vnic_eth_network_policy" "v_eth_network1" {
-  name = "v_eth_network1"
+  name = "${var.customer_name}-eth_network1"
 
   vlan_settings {
     object_type = "vnic.VlanSettings"
@@ -104,7 +104,7 @@ resource "intersight_vnic_eth_network_policy" "v_eth_network1" {
 }
 
 resource "intersight_vnic_eth_adapter_policy" "v_eth_adapter1" {
-  name = "v_eth_adapter1"
+  name = "${var.customer_name}-eth_adapter1"
   rss_settings = true
   uplink_failback_timeout = 5
 
@@ -157,7 +157,7 @@ resource "intersight_vnic_eth_adapter_policy" "v_eth_adapter1" {
 }
 
 resource "intersight_vnic_eth_qos_policy" "v_eth_qos1" {
-  name = "v_eth_qos1"
+  name = "${var.customer_name}-eth_qos1"
   mtu = 1500
   rate_limit = 0
   cos = 0
@@ -175,7 +175,7 @@ resource "intersight_vnic_eth_qos_policy" "v_eth_qos1" {
 }
 
 resource "intersight_vnic_lan_connectivity_policy" "vnic_lan1" {
-  name = "Morten-VNICs"
+  name = "${var.customer_name}-Lan-policy"
 
   target_platform = "Standalone"
 
