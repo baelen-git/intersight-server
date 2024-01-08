@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_intersight_server_1704725342332-push-trigger-input-set
+  identifier: Build_intersight_server_1704725342332pushtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: CiscoLive
+  pipeline:
+    identifier: Build_intersight_server_1704725342332
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>
