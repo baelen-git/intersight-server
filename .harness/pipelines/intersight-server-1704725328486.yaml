@@ -1,0 +1,33 @@
+pipeline:
+  identifier: Build_intersight_server_1704725342332
+  name: Build intersight-server
+  orgIdentifier: default
+  projectIdentifier: CiscoLive
+  properties:
+    ci:
+      codebase:
+        build: <+input>
+        connectorRef: baelengit
+        repoName: intersight-server
+  stages:
+    - stage:
+        identifier: build
+        name: build
+        spec:
+          cloneCodebase: true
+          execution:
+            steps:
+              - step:
+                  identifier: echo
+                  name: echo
+                  spec:
+                    command: echo hello world
+                  timeout: ""
+                  type: Run
+          platform:
+            arch: Amd64
+            os: Linux
+          runtime:
+            spec: {}
+            type: Cloud
+        type: CI
