@@ -8,28 +8,55 @@ pipeline:
       codebase:
         build: <+input>
         connectorRef: baelengit
-        repoName: intersight-server
+        repoName: brkcld-2015
   stages:
-    - type: Run
-      name: Invoke Intersight Workflow
-      identifier: Run_ico_wf
-      spec:
-        connectorRef: account.harnessImage
-        image: python:latest
-        shell: Sh
-        command: |-
-          echo "Welcome to Harness CI"
-          uname -a
-          pip install intersight
-          pip install pytest-cov
-          pip install -r requirements.txt
-
-          pytest -v --cov --junitxml="result.xml" test_api.py test_api_2.py test_api_3.py
-
-          echo "Done"
-        reports:
-          type: JUnit
-          spec:
+    - stage:
+        name: Test
+        identifier: test
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          caching:
+            enabled: true
+            key: cache-{{ checksum "requirements.txt" }}
             paths:
-              - "**/*.xml"
+              - /root/.cache
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  identifier: dependencies
+                  name: Dependencies
+                  spec:
+                    shell: Sh
+                    command: |-
+                      python -m pip install --upgrade pip
+                      pip install -r requirements.txt
+                    envVariables:
+                      PIP_CACHE_DIR: /root/.cache
+              - step:
+                  type: Run
+                  name: Test
+                  identifier: test
+                  spec:
+                    shell: Sh
+                    command: |-
+                      pip install pytest
+                      pytest tests.py --junit-xml=report.xml
+                    envVariables:
+                      PIP_CACHE_DIR: /root/.cache
+                    reports:
+                      type: JUnit
+                      spec:
+                        paths:
+                          - report.xml
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          sharedPaths:
+            - /root/.cache
   tags: {}
