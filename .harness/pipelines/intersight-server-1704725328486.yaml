@@ -1,6 +1,6 @@
 pipeline:
   identifier: Build_intersight_server_1704725342332
-  name: Build intersight-server
+  name: Provision Intersight Server
   orgIdentifier: default
   projectIdentifier: CiscoLive
   properties:
@@ -10,26 +10,26 @@ pipeline:
         connectorRef: baelengit
         repoName: intersight-server
   stages:
-    - stage:
-        identifier: build
-        name: build
-        spec:
-          cloneCodebase: true
-          execution:
-            steps:
-              - step:
-                  identifier: echo
-                  name: echo
-                  spec:
-                    shell: Sh
-                    command: echo 'hello world'
-                  timeout: ""
-                  type: Run
-          platform:
-            os: Linux
-            arch: Amd64
-          runtime:
-            type: Cloud
-            spec: {}
-        type: CI
-        description: ""
+    - type: Run
+      name: Invoke Intersight Workflow
+      identifier: Run_ico_wf
+      spec:
+        connectorRef: account.harnessImage
+        image: python:latest
+        shell: Sh
+        command: |-
+          echo "Welcome to Harness CI"
+          uname -a
+          pip install intersight
+          pip install pytest-cov
+          pip install -r requirements.txt
+
+          pytest -v --cov --junitxml="result.xml" test_api.py test_api_2.py test_api_3.py
+
+          echo "Done"
+        reports:
+          type: JUnit
+          spec:
+            paths:
+              - "**/*.xml"
+  tags: {}
